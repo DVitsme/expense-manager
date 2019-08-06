@@ -1,27 +1,45 @@
 import React from 'react';
-import { MdSend } from 'react-icons/md';
+import { Form, Button } from 'semantic-ui-react';
 
-const Form = () => {
+const expenseForm = () => {
   return (
-    <form>
-      <div>
-        <label htmlFor="expense">Product Name</label>
-        <input
+    <Form size="large">
+      <Form.Group widths="equal">
+        <Form.Input
+          fluid
+          icon="shopping cart"
+          iconPosition="left"
           type="text"
           id="expense"
           name="expense"
           placeholder="e.g. Food"
+          label="Product Name"
         />
-      </div>
-      <div>
-        <label htmlFor="price">Price</label>
-        <input type="text" id="price" name="price" placeholder="e.g. $15" />
-      </div>
-      <button type="submit">
-        Submit <MdSend />
-      </button>
-    </form>
+        <Form.Input
+          fluid
+          icon="dollar sign"
+          iconPosition="left"
+          type="text"
+          id="price"
+          name="price"
+          placeholder="e.g. $15"
+          label="Product Price"
+        />
+      </Form.Group>
+      <Form.Input
+        fluid
+        type="text"
+        id="desc"
+        name="desc"
+        placeholder="About the purchase"
+        label="Description"
+      />
+
+      <Button type="submit" color="teal" fluid size="large">
+        Submit
+      </Button>
+    </Form>
   );
 };
 
-export default Form;
+export default expenseForm;
