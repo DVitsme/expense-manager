@@ -3,12 +3,12 @@ import { Button, Card, Icon } from 'semantic-ui-react';
 import { formatPrice } from '../helpers';
 
 const Item = props => {
-  const { charge, amount, desc } = props.expense;
+  const { expense, price, desc } = props.expense;
   return (
     <Card>
       <Card.Content>
-        <Card.Header>{charge}</Card.Header>
-        <Card.Meta>{formatPrice(amount)}</Card.Meta>
+        <Card.Header>{expense}</Card.Header>
+        <Card.Meta>{formatPrice(price)}</Card.Meta>
         <Card.Description>{desc}</Card.Description>
       </Card.Content>
       <Card.Content extra>
