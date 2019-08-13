@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from './components/List';
 import Form from './components/Form';
 import Alert from './components/Alert';
@@ -6,29 +6,11 @@ import uuid from 'uuid';
 import Header from './components/Header';
 import { Grid, Segment } from 'semantic-ui-react';
 
-const dummyData = [
-  {
-    id: uuid(),
-    expense: 'food',
-    price: 2000,
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos!'
-  },
-  {
-    id: uuid(),
-    expense: 'gas',
-    price: 3000,
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos!'
-  },
-  {
-    id: uuid(),
-    expense: 'internet',
-    price: 5000,
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos!'
-  }
-];
-
+const initialExpenses = localStorage.getItem('expenses')
+  ? JSON.parse(localStorage.getItem('expenses'))
+  : [];
 function App() {
-  const [expenses, setExpenses] = useState(dummyData);
+  const [expenses, setExpenses] = useState(initialExpenses);
   const [expense, setExpense] = useState('');
   const [price, setPrice] = useState('');
   const [desc, setDesc] = useState('');
@@ -86,7 +68,6 @@ function App() {
   };
   const handleDelete = id => {
     let updatedExpenses = expenses.filter(item => item.id !== id);
-    // console.log(updatedExpenses);
     setExpenses(updatedExpenses);
     handleAlert({ type: 'Success', text: 'Product Deleted' });
   };
@@ -99,6 +80,11 @@ function App() {
     setEdit(true);
     setId(id);
   };
+
+  useEffect(() => {
+    console.log('Your is data stored in local storage');
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 1200 }}>
