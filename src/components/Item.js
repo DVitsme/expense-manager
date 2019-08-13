@@ -2,8 +2,9 @@ import React from 'react';
 import { Button, Card, Icon } from 'semantic-ui-react';
 import { formatPrice } from '../helpers';
 
-const Item = props => {
-  const { expense, price, desc } = props.expense;
+const Item = ({ expensedItem, handleEdit, handleDelete }) => {
+  const { id, expense, price, desc } = expensedItem;
+
   return (
     <Card>
       <Card.Content>
@@ -13,11 +14,11 @@ const Item = props => {
       </Card.Content>
       <Card.Content extra>
         <div className="ui two buttons">
-          <Button basic color="green">
+          <Button basic color="green" onClick={() => handleEdit(id)}>
             <Icon name="edit" size="small" />
             Edit
           </Button>
-          <Button basic color="red">
+          <Button basic color="red" onClick={() => handleDelete(id)}>
             <Icon name="delete" size="small" />
             Delete
           </Button>
