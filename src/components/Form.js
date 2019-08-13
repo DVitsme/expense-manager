@@ -8,7 +8,8 @@ const expenseForm = ({
   handlePrice,
   handleExpense,
   handleDesc,
-  handleSubmit
+  handleSubmit,
+  edit
 }) => {
   return (
     <Form size="large" onSubmit={handleSubmit}>
@@ -51,8 +52,8 @@ const expenseForm = ({
         onChange={handleDesc}
       />
 
-      <Button type="submit" color="teal" fluid size="large">
-        Submit
+      <Button type="submit" color={edit ? 'yellow' : 'teal'} fluid size="large">
+        {edit ? 'Edit' : 'Submit'}
       </Button>
     </Form>
   );
