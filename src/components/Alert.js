@@ -1,10 +1,14 @@
 import React from 'react';
+import { Message } from 'semantic-ui-react';
 
 const Alert = ({ type, text }) => {
   return (
     <div>
-      {type}
-      {text}
+      <Message
+        color={type === 'Success' ? 'green' : 'red'}
+        header={type}
+        content={text}
+      />
     </div>
   );
 };
