@@ -33,6 +33,8 @@ function App() {
   const [price, setPrice] = useState('');
   const [desc, setDesc] = useState('');
   const [alert, setAlert] = useState({ show: false });
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState(0);
 
   const handleExpense = e => {
     setExpense(e.target.value);
@@ -52,9 +54,25 @@ function App() {
   const handleSubmit = e => {
     e.preventDefault();
     if (expense !== '' && price > 0) {
-      const singleExpense = { id: uuid(), expense, price, desc };
-      setExpenses([...expenses, singleExpense]);
-      handleAlert({ type: 'Success', text: 'item added' });
+      // handle edit product rather than adding item to list
+      if (edit) {
+        let tempExpense = expenses.map(item => {
+          // create a copy of the array and only change the item with the same id
+          return item.id === id ? { ...item, expense, price, desc } : item;
+          // done this way to so the postion of the item in the array does not change
+        });
+        // update list state with newly changed array
+        setExpenses(tempExpense);
+        setEdit(false);
+      } else {
+        const singleExpense = { id: uuid(), expense, price, desc };
+        setExpenses([...expenses, singleExpense]);
+        handleAlert({ type: 'Success', text: 'item added' });
+      }
+      // reset form
+      setExpense('');
+      setPrice('');
+      setDesc('');
     } else {
       handleAlert({
         type: 'That Did Not Work',
@@ -73,14 +91,20 @@ function App() {
     handleAlert({ type: 'Success', text: 'Product Deleted' });
   };
   const handleEdit = id => {
-    console.log(`item edited ${id}`);
+    const foundItem = expenses.find(item => item.id === id);
+    let { expense, price, desc } = foundItem;
+    setExpense(expense);
+    setPrice(price);
+    setDesc(desc);
+    setEdit(true);
+    setId(id);
   };
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 1200 }}>
         {alert.show && <Alert type={alert.type} text={alert.text} />}
         <Segment stacked>
-          <Header expenses={expenses} />
+          <Header expenses={expenses} edit={edit} />
           <main>
             <Form
               expense={expense}
@@ -90,6 +114,7 @@ function App() {
               handleExpense={handleExpense}
               handleDesc={handleDesc}
               handleSubmit={handleSubmit}
+              edit={edit}
             />
             <List
               expenses={expenses}
