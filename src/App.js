@@ -54,14 +54,32 @@ function App() {
     if (expense !== '' && price > 0) {
       const singleExpense = { id: uuid(), expense, price, desc };
       setExpenses([...expenses, singleExpense]);
-      handleAlert({ type: 'success', text: 'item added' });
+      handleAlert({ type: 'Success', text: 'item added' });
+    } else {
+      handleAlert({
+        type: 'That Did Not Work',
+        text: 'Neither the name nor the price can be empty.'
+      });
     }
+  };
+  const clearItems = () => {
+    setExpenses([]);
+    handleAlert({ type: 'Success', text: 'All Products Deleted' });
+  };
+  const handleDelete = id => {
+    let updatedExpenses = expenses.filter(item => item.id !== id);
+    // console.log(updatedExpenses);
+    setExpenses(updatedExpenses);
+    handleAlert({ type: 'Success', text: 'Product Deleted' });
+  };
+  const handleEdit = id => {
+    console.log(`item edited ${id}`);
   };
   return (
     <Grid textAlign="center" style={{ height: '100vh' }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 1200 }}>
+        {alert.show && <Alert type={alert.type} text={alert.text} />}
         <Segment stacked>
-          {alert.show && <Alert type={alert.type} text={alert.text} />}
           <Header expenses={expenses} />
           <main>
             <Form
@@ -73,7 +91,12 @@ function App() {
               handleDesc={handleDesc}
               handleSubmit={handleSubmit}
             />
-            <List expenses={expenses} />
+            <List
+              expenses={expenses}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              clearItems={clearItems}
+            />
           </main>
         </Segment>
       </Grid.Column>
